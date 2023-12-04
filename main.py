@@ -1,1 +1,1 @@
-print("ia o gabita")
+print("ia o tu")
