@@ -38,7 +38,7 @@ class MainPage(tk.Frame):
         colour4 = 'black'
         
 
-        button1 = tk.Button(
+        play_button = tk.Button(
             root,
             background=colour1, 
             foreground=colour4,
@@ -52,13 +52,14 @@ class MainPage(tk.Frame):
             border=0, 
             cursor='hand1',
             text = 'PLAY',
-            font=('Arial', 15, 'bold')
+            font=('Arial', 15, 'bold'),
+            command=lambda: self.show_frame(play_page.PlayPage)
         )
-        button1.place(relx = 0.25, rely = 0.4)
+        play_button.place(relx = 0.25, rely = 0.4)
         #button1.grid(column=0, row=0)
-        button1.lift()
+        play_button.lift()
 
-        button2 = tk.Button(
+        settings_button = tk.Button(
             root,
             background=colour1, 
             foreground=colour4,
@@ -72,13 +73,14 @@ class MainPage(tk.Frame):
             border=0, 
             cursor='hand1',
             text = 'SETTINGS',
-            font=('Arial', 15, 'bold')
+            font=('Arial', 15, 'bold'),
+            command=lambda: self.show_frame(settings_page.SettingsPage)
         )
-        button2.place(relx = 0.25, rely = 0.5)
+        settings_button.place(relx = 0.25, rely = 0.5)
         #button1.grid(column=0, row=0)
-        button1.lift()
+        settings_button.lift()
 
-        button3 = tk.Button(
+        account_button = tk.Button(
             root,
             background=colour1, 
             foreground=colour4,
@@ -92,11 +94,12 @@ class MainPage(tk.Frame):
             border=0, 
             cursor='hand1',
             text = 'ACCOUNT',
-            font=('Arial', 15, 'bold')
+            font=('Arial', 15, 'bold'),
+            command=lambda : self.show_frame(account_page.AccountPage)
         )
-        button3.place(relx = 0.25, rely = 0.6)
+        account_button.place(relx = 0.25, rely = 0.6)
         #button1.grid(column=0, row=0)
-        button1.lift()
+        account_button.lift()
 
         #play_button = tk.Button(self, text="Play", command=lambda: self.show_frame(play_page.PlayPage))
         #settings_button = tk.Button(self, text="Settings", command=lambda: self.show_frame(settings_page.SettingsPage))
