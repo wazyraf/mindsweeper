@@ -121,3 +121,4 @@ if __name__ == "__main__":
     root.configure(bg = '#373535')
     main_page = MainPage(master=root)
     main_page.mainloop()
+#asta este pentru tine Tudorel
