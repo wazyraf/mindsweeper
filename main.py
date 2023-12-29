@@ -1,32 +1,49 @@
 import flet as ft
-from flet import View, Page, AppBar, ElevatedButton, Text
+from flet import View, Page, AppBar, ElevatedButton, Text, Image
 from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
 from mainpages.play_page import play_page_view
+from mainpages.account_page import account_page_view
+from mainpages.settings_page import settings_page_view
+from mainpages.image import image_page_view
 
-def main(page: Page) -> None:
+def main(page: ft.Page) -> None:
     page.title = "MAIN PAGE"
 
     def route_change(e:RouteChangeEvent) -> None:
         page.views.clear()
-
-        #HOME
+        
+        # HOME
         page.views.append(
             View(
                 route='/',
                 controls=[
+                    Image(
+                        src='/images/background.png',
+                        width=200,
+                        height=175
+                    ),
                     AppBar(title= Text('HOME'), bgcolor='blue'),
-                    Text(value='HOME', size=30),
-                    ElevatedButton(text='Play Page', on_click=lambda _: page.go('/play_page'))
-                    ],
-                    vertical_alignment=MainAxisAlignment.CENTER,
-                    horizontal_alignment=CrossAxisAlignment.CENTER,
-                    spacing=26
+                    Text(value='DRAWPY', size=50),
+                    ElevatedButton(text='PLAY', on_click=lambda _: page.go('/play_page')),
+                    ElevatedButton(text='ACCOUNT', on_click=lambda _: page.go('/account_page')),
+                    ElevatedButton(text='SETTINGS', on_click=lambda _: page.go('/settings_page')),
+                    ElevatedButton(text='SEE IMAGE', on_click=lambda _: page.go('/image_page'))
+                ],
+                vertical_alignment=MainAxisAlignment.CENTER,
+                horizontal_alignment=CrossAxisAlignment.CENTER,
+                spacing=26
             )
         )
 
-        #play_page
+        # play_page
         if page.route == '/play_page':
             page.views.append(play_page_view(page))
+        if page.route == '/account_page':
+            page.views.append(account_page_view(page))
+        if page.route == '/settings_page':
+            page.views.append(settings_page_view(page))
+        if page.route== '/image_page':
+            page.views.append(image_page_view(page))
     page.update()
 
     def view_pop(e: ViewPopEvent) -> None:
@@ -39,5 +56,7 @@ def main(page: Page) -> None:
     page.go(page.route)
 
 if __name__== '__main__':
-    ft.app(target=main)
-    #branch update for Erwin
+    ft.app(
+        target=main,
+        assets_dir="assets"
+           )
