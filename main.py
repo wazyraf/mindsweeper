@@ -1,6 +1,7 @@
 import flet as ft
 from flet import View, Page, AppBar, ElevatedButton, Text, Image
-from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
+from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment, Alignment
+from flet import Stack, Column
 from mainpages.play_page import play_page_view
 from mainpages.account_page import account_page_view
 from mainpages.settings_page import settings_page_view
@@ -17,11 +18,15 @@ def main(page: ft.Page) -> None:
             View(
                 route='/',
                 controls=[
+                    Stack(
+                    children=[
                     Image(
                         src='/images/background.png',
                         width=200,
                         height=175
                     ),
+                    Column(
+                    children=[
                     AppBar(title= Text('HOME'), bgcolor='blue'),
                     Text(value='DRAWPY', size=50),
                     ElevatedButton(text='PLAY', on_click=lambda _: page.go('/play_page')),
@@ -32,7 +37,12 @@ def main(page: ft.Page) -> None:
                 vertical_alignment=MainAxisAlignment.CENTER,
                 horizontal_alignment=CrossAxisAlignment.CENTER,
                 spacing=26
+                    )
+                ],
+            alignment=Alignment.center
             )
+            ]
+        )
         )
 
         # play_page
