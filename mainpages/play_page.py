@@ -13,6 +13,7 @@ class GenerateGrid(UserControl):
         self.difficulty: int = difficulty
         self.correct: int = 0
         self.incorrect: int = 0
+        self.stage: int = 1
         super().__init__()
         self.generate_grid()
 
@@ -43,6 +44,7 @@ class GenerateGrid(UserControl):
                 if container.bgcolor == "#4cbbb5":
                     self.blue_tiles += 1
 
+
         self.grid.controls = rows
 
     def rebuild_grid(self):
@@ -71,11 +73,22 @@ class GenerateGrid(UserControl):
         
         if self.blue_tiles == 0:
             time.sleep(1)
+            self.difficulty += 1
+            self.stage += 1
             self.rebuild_grid() 
             self.grid.update()
+            if self.on_stage_change:
+                self.on_stage_change(self.stage)
 
 def play_page_view(page: Page):
+    def on_stage_change(new_stage):
+        stage_text.value = f'Stage: {new_stage}'
+        stage_text.update()
+
     grid_instance = GenerateGrid(2)
+    grid_instance.on_stage_change = on_stage_change
+
+    stage_text = Text(value=f'Stage: {grid_instance.stage}', size=20)
     #def on_start_button_click(e):
 
         #print("Start button clicked!")
@@ -87,13 +100,15 @@ def play_page_view(page: Page):
         
         #page.update()
 
-
+    stage_text = Text(value=f'Stage: {grid_instance.stage}', size=20)
+    
     return View(
         route='/play_page',
         controls=[
             AppBar(title=Text('PLAY PAGE'), bgcolor='blue'),
             Text(value='PLAY PAGE', size=30),
             grid_instance,
+            stage_text,
             #ElevatedButton(text='Start', on_click=on_start_button_click),
         ],
         vertical_alignment=MainAxisAlignment.CENTER,
