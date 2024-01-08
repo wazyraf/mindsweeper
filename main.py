@@ -1,6 +1,4 @@
 import flet as ft
-import random
-import time
 from flet import View, Page, AppBar, ElevatedButton, Text
 from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
 from mainpages.play_page import play_page_view
@@ -54,4 +52,4 @@ def main(page: Page) -> None:
 
 if __name__== '__main__':
     ft.app(target=main)
-    #requirements.txt
+    #branch update for Erwin

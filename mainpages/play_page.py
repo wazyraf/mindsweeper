@@ -2,13 +2,17 @@
 from flet import View, Page, AppBar, ElevatedButton, Text
 from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
 from flet import Column, UserControl, Row, Container, border
+import time
 import random
 
+last_grid_instance = None
 class GenerateGrid(UserControl):
     def __init__(self, difficulty):
         self.grid = Column(opacity=1, animate_opacity=300)
         self.blue_tiles: int = 0
         self.difficulty: int = difficulty
+        self.correct: int = 0
+        self.incorrect: int = 0
         super().__init__()
         self.generate_grid()
 
@@ -22,7 +26,7 @@ class GenerateGrid(UserControl):
                         height=54,
                         animate=300,
                         border=border.all(1, 'white'),
-                        on_click=None
+                        on_click= lambda e: self.show_color(e),
                     )
                     for _ in range(5)
                 ],
@@ -47,18 +51,41 @@ class GenerateGrid(UserControl):
 
     def build(self):
         return self.grid
+    
+    def show_color(self, e):
+        if e.control.data == "#4cbbb5":
+            e.control.bgcolor = "#5c443b"
+            e.control.opacity = 1
+            e.control.on_click = None
+            e.control.update()
+            self.blue_tiles -= 1
+            self.correct += 1
+            e.page.update()
+        else:
+            e.control.bgcolor = "red"
+            e.control.opacity = 1
+            e.control.on_click = None
+            e.control.update()
+            self.incorrect += 1
+            e.page.update()
+        
+        if self.blue_tiles == 0:
+            time.sleep(1)
+            self.rebuild_grid() 
+            self.grid.update()
 
 def play_page_view(page: Page):
     grid_instance = GenerateGrid(2)
+    #def on_start_button_click(e):
 
-    def on_start_button_click(e):
-        print("Start button clicked!")
-        grid_instance.rebuild_grid()
-        new_grid_instance = GenerateGrid(2)  #creeaza o noua instanta a grid-ului 
-        new_view = play_page_view(page)  # creaza un nouy view cu noul grid
-        new_view.controls[2] = new_grid_instance  # inlocuieste grid-ul existent cu cel nou
-        page.views[-1] = new_view  # inlocuieste ce se vede(view vechi cu cel nou)
-        page.update()
+        #print("Start button clicked!")
+        #e.source.enabled = False
+        #new_grid_instance = GenerateGrid(2)  #creeaza o noua instanta a grid-ului 
+        #new_view = play_page_view(page)  # creaza un nou view cu noul grid
+        #new_view.controls[2] = new_grid_instance  # inlocuieste grid-ul existent cu cel nou
+        #page.views[-1] = new_view  # inlocuieste ce se vede(view vechi cu cel nou)
+        
+        #page.update()
 
 
     return View(
@@ -67,7 +94,7 @@ def play_page_view(page: Page):
             AppBar(title=Text('PLAY PAGE'), bgcolor='blue'),
             Text(value='PLAY PAGE', size=30),
             grid_instance,
-            ElevatedButton(text='Start', on_click=on_start_button_click),
+            #ElevatedButton(text='Start', on_click=on_start_button_click),
         ],
         vertical_alignment=MainAxisAlignment.CENTER,
         horizontal_alignment=CrossAxisAlignment.CENTER,
