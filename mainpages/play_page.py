@@ -27,7 +27,7 @@ class GenerateGrid(UserControl):
                         height=54,
                         animate=300,
                         border=border.all(1, 'white'),
-                        on_click= lambda e: self.show_color(e),
+                        on_click= None,
                     )
                     for _ in range(5)
                 ],
@@ -58,12 +58,12 @@ class GenerateGrid(UserControl):
         return self.grid
 
     def delete_grid(self, grid):
-        time.sleep(1.5)
         for row in grid.controls:
             for container in row.controls:
+                container.on_click = lambda e: self.show_color(e)
                 if container.bgcolor == "#4cbbb5":
                     container.bgcolor = "#5c443b"
-        grid.update()   
+        grid.update()
 
     def show_color(self, e):
         if e.control.data == "#4cbbb5":
