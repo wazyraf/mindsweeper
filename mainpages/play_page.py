@@ -15,6 +15,7 @@ class GenerateGrid(UserControl):
         self.correct: int = 0
         self.incorrect: int = 0
         self.stage: int = 1
+        self.failed_message = Text(value = '', size=20, color='red')
         super().__init__()
         self.generate_grid()
 
@@ -83,6 +84,18 @@ class GenerateGrid(UserControl):
             self.incorrect += 1
             e.page.update()
         
+        if self.incorrect == 3:
+            self.failed_message.value = "Three squares selected wrong, resetting stage",
+            self.failed_message.update()
+            threading.Timer(1.5, clear_failed_message).start()
+            self.incorrect = 0
+            self.rebuild_grid()
+            self.grid.update()
+        def clear_failed_message():
+            self.failed_message.value = ''
+            self.failed_message.update()
+
+        
         if self.blue_tiles == 0:
             time.sleep(1)
             self.difficulty += 1
@@ -133,6 +146,7 @@ def play_page_view(page: Page):
             Text(value='PLAY PAGE', size=30),
             grid_instance,
             stage_text,
+            grid_instance.failed_message,
             stage_message #control pentru stage_message
         ],
         vertical_alignment=MainAxisAlignment.CENTER,
