@@ -1,7 +1,6 @@
 # play_page.py
-from flet import View, Page, AppBar, ElevatedButton, Text
-from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
-from flet import Column, UserControl, Row, Container, border
+from flet import View, Page, AppBar, Text, Column, UserControl, Row, Container, border
+from flet import CrossAxisAlignment, MainAxisAlignment
 import time
 import random
 import threading
@@ -102,17 +101,6 @@ def play_page_view(page: Page):
     grid_instance.on_stage_change = on_stage_change
 
     stage_text = Text(value=f'Stage: {grid_instance.stage}', size=20)
-    #def on_start_button_click(e):
-
-        #print("Start button clicked!")
-        #e.source.enabled = False
-        #new_grid_instance = GenerateGrid(2)  #creeaza o noua instanta a grid-ului 
-        #new_view = play_page_view(page)  # creaza un nou view cu noul grid
-        #new_view.controls[2] = new_grid_instance  # inlocuieste grid-ul existent cu cel nou
-        #page.views[-1] = new_view  # inlocuieste ce se vede(view vechi cu cel nou)
-        
-        #page.update()
-
     stage_text = Text(value=f'Stage: {grid_instance.stage}', size=20)
     
     return View(
@@ -122,7 +110,6 @@ def play_page_view(page: Page):
             Text(value='PLAY PAGE', size=30),
             grid_instance,
             stage_text,
-            #ElevatedButton(text='Start', on_click=on_start_button_click),
         ],
         vertical_alignment=MainAxisAlignment.CENTER,
         horizontal_alignment=CrossAxisAlignment.CENTER,
