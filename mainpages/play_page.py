@@ -4,6 +4,7 @@ from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAli
 from flet import Column, UserControl, Row, Container, border
 import time
 import random
+import threading
 
 last_grid_instance = None
 class GenerateGrid(UserControl):
@@ -45,7 +46,10 @@ class GenerateGrid(UserControl):
                     self.blue_tiles += 1
 
 
-        self.grid.controls = rows
+        self.grid.controls = rows  
+        threading.Timer(1.5, self.delete_grid, args=(self.grid,)).start()
+ 
+
 
     def rebuild_grid(self):
         self.blue_tiles = 0
@@ -53,10 +57,18 @@ class GenerateGrid(UserControl):
 
     def build(self):
         return self.grid
-    
+
+    def delete_grid(self, grid):
+        time.sleep(1.5)
+        for row in grid.controls:
+            for container in row.controls:
+                if container.bgcolor == "#4cbbb5":
+                    container.bgcolor = "#5c443b"
+        grid.update()   
+
     def show_color(self, e):
         if e.control.data == "#4cbbb5":
-            e.control.bgcolor = "#5c443b"
+            e.control.bgcolor = "#4cbbb5"
             e.control.opacity = 1
             e.control.on_click = None
             e.control.update()
@@ -79,6 +91,7 @@ class GenerateGrid(UserControl):
             self.grid.update()
             if self.on_stage_change:
                 self.on_stage_change(self.stage)
+
 
 def play_page_view(page: Page):
     def on_stage_change(new_stage):
