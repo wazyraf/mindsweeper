@@ -1,5 +1,5 @@
 import flet as ft
-from flet import View, Page, AppBar, ElevatedButton, Text, IconButton, Row
+from flet import View, Page, AppBar, ElevatedButton, Text, IconButton, Row, Column, Container
 from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
 from mainpages.play_page import play_page_view
 from mainpages.settings_page import settings_page_view
@@ -29,15 +29,35 @@ def main(page: Page) -> None:
                                 ),
                                 IconButton(
                                     icon = ft.icons.ACCOUNT_CIRCLE,
+                                    icon_color='white',
                                     on_click=lambda _: page.go('/account_page')
                                 )
                             ])
                         ]
                     ),
-                    Text(value='HOME', size=30),
-                    ElevatedButton(text='Play', on_click=lambda _: page.go('/play_page')),
-                    ElevatedButton(text='Account', on_click=lambda _: page.go('/account_page')),
-                    ElevatedButton(text='Settings', on_click=lambda _: page.go('/settings_page'))
+                    Column(
+                        [
+                            Text(value='M I N D S W E E P E R', size=30),
+                            Text(value="The game that blows your mind",size=15)
+                        ],
+                        spacing=10,
+                        horizontal_alignment=CrossAxisAlignment.CENTER
+                    ),
+                    Container(
+                        height=25,
+                    ),
+                    ElevatedButton(
+                        text='Play',
+                        on_click=lambda _: page.go('/play_page'),
+                        icon= ft.icons.GAMEPAD),
+                    ElevatedButton(
+                        text='Settings',
+                        on_click=lambda _: page.go('/settings_page'),
+                        icon = ft.icons.SETTINGS),
+                    ElevatedButton(
+                        text='Account',
+                        on_click=lambda _: page.go('/account_page'),
+                        icon = ft.icons.ACCOUNT_BOX),
                     ],
                     vertical_alignment=MainAxisAlignment.CENTER,
                     horizontal_alignment=CrossAxisAlignment.CENTER,

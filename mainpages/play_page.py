@@ -36,20 +36,20 @@ class GenerateGrid(UserControl):
             for _ in range(5)
         ]
 
-        colors = ["#5c443b", "#4cbbb5"]
+        #variables for colors
+
+        colors = ["#4C4E52", "blue"]
 
         for row in rows:
             for container in row.controls:
                 container.bgcolor = random.choices(colors, weights=[10, self.difficulty])[0]
                 container.data = container.bgcolor
-                if container.bgcolor == "#4cbbb5":
+                if container.bgcolor == "blue":
                     self.blue_tiles += 1
 
 
         self.grid.controls = rows  
         threading.Timer(1.5, self.delete_grid, args=(self.grid,)).start()
- 
-
 
     def rebuild_grid(self):
         self.blue_tiles = 0
@@ -62,13 +62,13 @@ class GenerateGrid(UserControl):
         for row in grid.controls:
             for container in row.controls:
                 container.on_click = lambda e: self.show_color(e)
-                if container.bgcolor == "#4cbbb5":
-                    container.bgcolor = "#5c443b"
+                if container.bgcolor == "blue":
+                    container.bgcolor = "#4C4E52"
         grid.update()
 
     def show_color(self, e):
-        if e.control.data == "#4cbbb5":
-            e.control.bgcolor = "#4cbbb5"
+        if e.control.data == "blue":
+            e.control.bgcolor = "blue"
             e.control.opacity = 1
             e.control.on_click = None
             e.control.update()
@@ -94,15 +94,23 @@ class GenerateGrid(UserControl):
 
 
 def play_page_view(page: Page):
+    stage_message = Text(value = '', size=20, color='green') #textul pentru mesajul de succes
     def on_stage_change(new_stage):
         stage_text.value = f'Stage: {new_stage}'
         stage_text.update()
+        stage_message.value = "Congrats, preparing the next level"   #mesajul in sine
+        stage_message.update()  #refresh-ul mesajului
+        threading.Timer(1.5, clear_stage_message).start() #pentru pastrarea mesajului de succes doar pentru 3 secunde
+
+    def clear_stage_message():
+        stage_message.value=''
+        stage_message.update()
 
     grid_instance = GenerateGrid(2)
     grid_instance.on_stage_change = on_stage_change
 
-    stage_text = Text(value=f'Stage: {grid_instance.stage}', size=20)
-    stage_text = Text(value=f'Stage: {grid_instance.stage}', size=20)
+    stage_text = Text(value=f'Level: {grid_instance.stage}', size=20) #pentru refresh
+    stage_text = Text(value=f'Level: {grid_instance.stage}', size=20) #pentru prima aparitie
     
     return View(
         route='/play_page',
@@ -117,6 +125,7 @@ def play_page_view(page: Page):
                                 ),
                                 IconButton(
                                     icon = ft.icons.ACCOUNT_CIRCLE,
+                                    icon_color='white',
                                     on_click=lambda _: page.go('/account_page')
                                 )
                             ])
@@ -124,6 +133,7 @@ def play_page_view(page: Page):
             Text(value='PLAY PAGE', size=30),
             grid_instance,
             stage_text,
+            stage_message #control pentru stage_message
         ],
         vertical_alignment=MainAxisAlignment.CENTER,
         horizontal_alignment=CrossAxisAlignment.CENTER,
