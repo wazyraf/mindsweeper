@@ -1,5 +1,6 @@
 # play_page.py
-from flet import View, Page, AppBar, Text, Column, UserControl, Row, Container, border
+import flet as ft
+from flet import View, Page, AppBar, Text, Column, UserControl, Row, Container, border,IconButton
 from flet import CrossAxisAlignment, MainAxisAlignment
 import time
 import random
@@ -106,7 +107,20 @@ def play_page_view(page: Page):
     return View(
         route='/play_page',
         controls=[
-            AppBar(title=Text('PLAY PAGE'), bgcolor='blue'),
+            AppBar(title=Text('PLAY PAGE'), bgcolor='blue',
+                   actions=[
+                            Row([
+                                IconButton(
+                                    icon = ft.icons.SETTINGS,
+                                    icon_color='white',
+                                    on_click=lambda _: page.go('/settings_page')
+                                ),
+                                IconButton(
+                                    icon = ft.icons.ACCOUNT_CIRCLE,
+                                    on_click=lambda _: page.go('/account_page')
+                                )
+                            ])
+                        ]),
             Text(value='PLAY PAGE', size=30),
             grid_instance,
             stage_text,

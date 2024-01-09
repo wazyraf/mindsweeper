@@ -1,18 +1,27 @@
 #play_page.py
+import flet as ft
 from flet import View, Page, AppBar, ElevatedButton, Text
-from flet import CrossAxisAlignment, MainAxisAlignment, Icon, Row
+from flet import CrossAxisAlignment, MainAxisAlignment, IconButton, Row
 
 
 def account_page_view(page: Page):
-    page.add(
-        Row(
-            Icon(name="settings", color='#c1c1c1'),
-        )
-    )
     return View(
         route='/account_page',
         controls=[
-            AppBar(title= Text('ACCOUNT PAGE'), bgcolor='blue'),
+            AppBar(title= Text('ACCOUNT PAGE'), bgcolor='blue',
+                   actions=[
+                            Row([
+                                IconButton(
+                                    icon = ft.icons.SETTINGS,
+                                    icon_color='white',
+                                    on_click=lambda _: page.go('/settings_page')
+                                ),
+                                IconButton(
+                                    icon = ft.icons.ACCOUNT_CIRCLE,
+                                    on_click=lambda _: page.go('/account_page')
+                                )
+                            ])
+                        ]),
             Text(value='ACCOUNT PAGE', size=30),
             ElevatedButton(text='Go Back', on_click=lambda _: page.go('/'))
             ],

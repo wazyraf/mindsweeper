@@ -1,5 +1,6 @@
 import flet as ft
-from flet import View, Page, AppBar, ElevatedButton, Text, RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
+from flet import View, Page, AppBar, ElevatedButton, Text, IconButton, Row
+from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
 from mainpages.play_page import play_page_view
 from mainpages.settings_page import settings_page_view
 from mainpages.account_page import account_page_view
@@ -15,7 +16,24 @@ def main(page: Page) -> None:
             View(
                 route='/',
                 controls=[
-                    AppBar(title= Text('MINDSWEEPER'), bgcolor='blue',center_title=True),
+                    AppBar(
+                        title= Text('MINDSWEEPER'), 
+                        bgcolor='blue',
+                        center_title=True,
+                        actions=[
+                            Row([
+                                IconButton(
+                                    icon = ft.icons.SETTINGS,
+                                    icon_color='white',
+                                    on_click=lambda _: page.go('/settings_page')
+                                ),
+                                IconButton(
+                                    icon = ft.icons.ACCOUNT_CIRCLE,
+                                    on_click=lambda _: page.go('/account_page')
+                                )
+                            ])
+                        ]
+                    ),
                     Text(value='HOME', size=30),
                     ElevatedButton(text='Play', on_click=lambda _: page.go('/play_page')),
                     ElevatedButton(text='Account', on_click=lambda _: page.go('/account_page')),
