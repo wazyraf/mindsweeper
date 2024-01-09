@@ -1,10 +1,8 @@
 import flet as ft
-from flet import View, Page, AppBar, ElevatedButton, Text
-from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
+from flet import View, Page, AppBar, ElevatedButton, Text, RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
 from mainpages.play_page import play_page_view
 from mainpages.settings_page import settings_page_view
 from mainpages.account_page import account_page_view
-#from mainpages.play_page import GenerateGrid
 
 def main(page: Page) -> None:
     page.title = "MAIN PAGE"
@@ -12,12 +10,12 @@ def main(page: Page) -> None:
     def route_change(e:RouteChangeEvent) -> None:
         page.views.clear()
 
-        #HOME
+        #home_page design
         page.views.append(
             View(
                 route='/',
                 controls=[
-                    AppBar(title= Text('HOME'), bgcolor='blue'),
+                    AppBar(title= Text('MINDSWEEPER'), bgcolor='blue',center_title=True),
                     Text(value='HOME', size=30),
                     ElevatedButton(text='Play', on_click=lambda _: page.go('/play_page')),
                     ElevatedButton(text='Account', on_click=lambda _: page.go('/account_page')),
@@ -29,15 +27,15 @@ def main(page: Page) -> None:
             )
         )
 
-        #play_page
+        #ruta catre play_page
         if page.route == '/play_page':
             page.views.append(play_page_view(page))
 
-        #settings_page
+        #ruta catre settings_page
         if page.route == '/settings_page':
             page.views.append(settings_page_view(page))
 
-        #account_page
+        #ruta catre account_page
         if page.route == '/account_page':
             page.views.append(account_page_view(page))
     page.update()
@@ -53,4 +51,3 @@ def main(page: Page) -> None:
 
 if __name__== '__main__':
     ft.app(target=main)
-    #branch update for Erwin

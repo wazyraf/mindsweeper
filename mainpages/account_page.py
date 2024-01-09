@@ -1,9 +1,14 @@
 #play_page.py
 from flet import View, Page, AppBar, ElevatedButton, Text
-from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
+from flet import CrossAxisAlignment, MainAxisAlignment, Icon, Row
 
 
 def account_page_view(page: Page):
+    page.add(
+        Row(
+            Icon(name="settings", color='#c1c1c1'),
+        )
+    )
     return View(
         route='/account_page',
         controls=[
@@ -13,5 +18,5 @@ def account_page_view(page: Page):
             ],
             vertical_alignment=MainAxisAlignment.CENTER,
             horizontal_alignment=CrossAxisAlignment.CENTER,
-            spacing=26
+            spacing=26,
     )
