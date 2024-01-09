@@ -4,6 +4,7 @@ from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAli
 from mainpages.play_page import play_page_view
 from mainpages.settings_page import settings_page_view
 from mainpages.account_page import account_page_view
+#from mainpages.play_page import GenerateGrid
 
 def main(page: Page) -> None:
     page.title = "MAIN PAGE"
