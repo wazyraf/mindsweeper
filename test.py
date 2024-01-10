@@ -1,26 +1,20 @@
-import threading
-import time
-import sys
+import flet as ft
 
-# This variable will determine when the loading screen should stop
-done = False 
+def main(page: ft.Page):
+    def dropdown_changed(e):
+        t.value = f"Dropdown changed to {dd.value}"
+        page.update()
 
-def loading_screen():
-    global done
-    # This is the animation
-    while not done:
-        for char in ['|', '/', '-', '\\']:
-            sys.stdout.write('\rloading ' + char)
-            sys.stdout.flush()
-            time.sleep(0.1)
-    sys.stdout.write('\rDone!     ')
+    t = ft.Text()
+    dd = ft.Dropdown(
+        on_change=dropdown_changed,
+        options=[
+            ft.dropdown.Option("Red"),
+            ft.dropdown.Option("Green"),
+            ft.dropdown.Option("Blue"),
+        ],
+        width=200,
+    )
+    page.add(dd, t)
 
-# Start the loading screen
-t = threading.Thread(target=loading_screen)
-t.start()
-
-# Here you can put the long process for which you want to display the loading screen
-time.sleep(10)  # This is just an example
-
-# Stop the loading screen
-done = True
+ft.app(target=main)

@@ -109,7 +109,7 @@ class GenerateGrid(UserControl):
 def play_page_view(page: Page):
     stage_message = Text(value = '', size=20, color='green') #textul pentru mesajul de succes
     def on_stage_change(new_stage):
-        stage_text.value = f'Stage: {new_stage}'
+        stage_text.value = f'Level: {new_stage}'
         stage_text.update()
         stage_message.value = "Congrats, preparing the next level"   #mesajul in sine
         stage_message.update()  #refresh-ul mesajului
