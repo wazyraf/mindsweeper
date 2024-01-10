@@ -1,9 +1,9 @@
 import flet as ft
 from flet import View, Page, AppBar, ElevatedButton, Text, IconButton, Row, Column, Container
 from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
-from mainpages.play_page import play_page_view
-from mainpages.settings_page import settings_page_view
-from mainpages.profile_page import profile_page_view
+from pages.play_page import play_page_view
+from pages.settings_page import settings_page_view
+from pages.profile_page import profile_page_view
 from design import color_variables
 mainc, white, red, black, green = color_variables()
 
