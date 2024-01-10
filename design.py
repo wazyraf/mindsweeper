@@ -1,4 +1,3 @@
-
 def color_variables():
     mainc='#4A7DFF' #(blue) appbar
     red = 'red'

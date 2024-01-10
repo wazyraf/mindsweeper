@@ -6,6 +6,7 @@ import time
 import random
 import threading
 from design import color_variables
+from pages.profile_page import username_container
 mainc, white, red, black, green = color_variables()
 
 last_grid_instance = None
@@ -115,7 +116,7 @@ def play_page_view(page: Page):
     def on_stage_change(new_stage):
         stage_text.value = f'Level: {new_stage}'
         stage_text.update()
-        stage_message.value = "Congrats, preparing the next level"   #mesajul in sine
+        stage_message.value = f"Congrats {username_container['username']}, preparing the next level"   #mesajul in sine
         stage_message.update()  #refresh-ul mesajului
         threading.Timer(1.5, clear_stage_message).start() #pentru pastrarea mesajului de succes doar pentru 3 secunde
 
