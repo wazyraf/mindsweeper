@@ -4,6 +4,8 @@ from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAli
 from mainpages.play_page import play_page_view
 from mainpages.settings_page import settings_page_view
 from mainpages.profile_page import profile_page_view
+from design import color_variables
+mainc, white, red, black, green = color_variables()
 
 def main(page: Page) -> None:
     page.title = "MAIN PAGE"
@@ -18,18 +20,18 @@ def main(page: Page) -> None:
                 controls=[
                     AppBar(
                         title= Text('MINDSWEEPER'), 
-                        bgcolor='blue',
+                        bgcolor=mainc,
                         center_title=True,
                         actions=[
                             Row([
                                 IconButton(
                                     icon = ft.icons.SETTINGS,
-                                    icon_color='white',
+                                    icon_color=white,
                                     on_click=lambda _: page.go('/settings_page')
                                 ),
                                 IconButton(
                                     icon = ft.icons.ACCOUNT_CIRCLE,
-                                    icon_color='white',
+                                    icon_color=white,
                                     on_click=lambda _: page.go('/profile_page')
                                 )
                             ])
@@ -37,8 +39,8 @@ def main(page: Page) -> None:
                     ),
                     Column(
                         [
-                            Text(value='M I N D S W E E P E R', size=30),
-                            Text(value="The game that blows your mind",size=15)
+                            Text(value='M I N D S W E E P E R', size=30, weight=ft.FontWeight.BOLD),
+                            Text(value="The game that blows your mind",size=15,italic=True)
                         ],
                         spacing=10,
                         horizontal_alignment=CrossAxisAlignment.CENTER
@@ -48,17 +50,22 @@ def main(page: Page) -> None:
                     ),
                     ElevatedButton(
                         text='Play',
-                        
+                        color = white,
                         on_click=lambda _: page.go('/play_page'),
-                        icon= ft.icons.GAMEPAD),
+                        icon= ft.icons.GAMEPAD,
+                        icon_color=mainc),
                     ElevatedButton(
                         text='Settings',
+                        color = white,
                         on_click=lambda _: page.go('/settings_page'),
-                        icon = ft.icons.SETTINGS),
+                        icon = ft.icons.SETTINGS,
+                        icon_color=mainc),
                     ElevatedButton(
                         text='Profile',
+                        color = white,
                         on_click=lambda _: page.go('/profile_page'),
-                        icon = ft.icons.ACCOUNT_BOX),
+                        icon = ft.icons.ACCOUNT_BOX,
+                        icon_color=mainc),
                     ],
                     vertical_alignment=MainAxisAlignment.CENTER,
                     horizontal_alignment=CrossAxisAlignment.CENTER,
