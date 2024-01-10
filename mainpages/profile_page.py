@@ -4,9 +4,9 @@ from flet import View, Page, AppBar, ElevatedButton, Text
 from flet import CrossAxisAlignment, MainAxisAlignment, IconButton, Row
 
 
-def account_page_view(page: Page):
+def profile_page_view(page: Page):
     return View(
-        route='/account_page',
+        route='/profile_page',
         controls=[
             AppBar(title= Text('ACCOUNT PAGE'), bgcolor='blue',
                    actions=[
@@ -19,7 +19,7 @@ def account_page_view(page: Page):
                                 IconButton(
                                     icon = ft.icons.ACCOUNT_CIRCLE,
                                     icon_color='white',
-                                    on_click=lambda _: page.go('/account_page')
+                                    on_click=lambda _: page.go('/profile_page')
                                 )
                             ])
                         ]),

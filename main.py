@@ -3,7 +3,7 @@ from flet import View, Page, AppBar, ElevatedButton, Text, IconButton, Row, Colu
 from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
 from mainpages.play_page import play_page_view
 from mainpages.settings_page import settings_page_view
-from mainpages.account_page import account_page_view
+from mainpages.profile_page import profile_page_view
 
 def main(page: Page) -> None:
     page.title = "MAIN PAGE"
@@ -30,7 +30,7 @@ def main(page: Page) -> None:
                                 IconButton(
                                     icon = ft.icons.ACCOUNT_CIRCLE,
                                     icon_color='white',
-                                    on_click=lambda _: page.go('/account_page')
+                                    on_click=lambda _: page.go('/profile_page')
                                 )
                             ])
                         ]
@@ -48,6 +48,7 @@ def main(page: Page) -> None:
                     ),
                     ElevatedButton(
                         text='Play',
+                        
                         on_click=lambda _: page.go('/play_page'),
                         icon= ft.icons.GAMEPAD),
                     ElevatedButton(
@@ -55,8 +56,8 @@ def main(page: Page) -> None:
                         on_click=lambda _: page.go('/settings_page'),
                         icon = ft.icons.SETTINGS),
                     ElevatedButton(
-                        text='Account',
-                        on_click=lambda _: page.go('/account_page'),
+                        text='Profile',
+                        on_click=lambda _: page.go('/profile_page'),
                         icon = ft.icons.ACCOUNT_BOX),
                     ],
                     vertical_alignment=MainAxisAlignment.CENTER,
@@ -73,9 +74,9 @@ def main(page: Page) -> None:
         if page.route == '/settings_page':
             page.views.append(settings_page_view(page))
 
-        #ruta catre account_page
-        if page.route == '/account_page':
-            page.views.append(account_page_view(page))
+        #ruta catre profile_page
+        if page.route == '/profile_page':
+            page.views.append(profile_page_view(page))
     page.update()
 
     def view_pop(e: ViewPopEvent) -> None:

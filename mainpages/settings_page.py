@@ -19,7 +19,7 @@ def settings_page_view(page: Page):
                                 IconButton(
                                     icon = ft.icons.ACCOUNT_CIRCLE,
                                     icon_color='white',
-                                    on_click=lambda _: page.go('/account_page')
+                                    on_click=lambda _: page.go('/profile_page')
                                 )
                             ])
                         ]),
