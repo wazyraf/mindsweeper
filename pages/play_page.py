@@ -5,6 +5,8 @@ from flet import CrossAxisAlignment, MainAxisAlignment
 import time
 import random
 import threading
+from design import color_variables
+mainc, white, red, black, green = color_variables()
 
 last_grid_instance = None
 class GenerateGrid(UserControl):
@@ -15,7 +17,7 @@ class GenerateGrid(UserControl):
         self.correct: int = 0
         self.incorrect: int = 0
         self.stage: int = 1
-        self.failed_message = Text(value = '', size=20, color='red')
+        self.failed_message = Text(value = '', size=20, color=red)
         super().__init__()
         self.generate_grid()
 
@@ -28,7 +30,7 @@ class GenerateGrid(UserControl):
                         width=54,
                         height=54,
                         animate=300,
-                        border=border.all(1, 'white'),
+                        border=border.all(1, white),
                         on_click= None,
                     )
                     for _ in range(5)
@@ -37,15 +39,13 @@ class GenerateGrid(UserControl):
             for _ in range(5)
         ]
 
-        #variables for colors
-
-        colors = ["#4C4E52", "blue"]
+        colors = [black, mainc] #prima pentru patratele goale si a doua pentru cele colorate
 
         for row in rows:
             for container in row.controls:
                 container.bgcolor = random.choices(colors, weights=[10, self.difficulty])[0]
                 container.data = container.bgcolor
-                if container.bgcolor == "blue":
+                if container.bgcolor == mainc:
                     self.blue_tiles += 1
 
 
@@ -63,13 +63,17 @@ class GenerateGrid(UserControl):
         for row in grid.controls:
             for container in row.controls:
                 container.on_click = lambda e: self.show_color(e)
-                if container.bgcolor == "blue":
-                    container.bgcolor = "#4C4E52"
+                if container.bgcolor == mainc:
+                    container.bgcolor = black
         grid.update()
 
+    def clear_failed_message(self):
+            self.failed_message.value = ''
+            self.failed_message.update()
+
     def show_color(self, e):
-        if e.control.data == "blue":
-            e.control.bgcolor = "blue"
+        if e.control.data == mainc:
+            e.control.bgcolor = mainc
             e.control.opacity = 1
             e.control.on_click = None
             e.control.update()
@@ -77,7 +81,7 @@ class GenerateGrid(UserControl):
             self.correct += 1
             e.page.update()
         else:
-            e.control.bgcolor = "red"
+            e.control.bgcolor = red
             e.control.opacity = 1
             e.control.on_click = None
             e.control.update()
@@ -87,14 +91,14 @@ class GenerateGrid(UserControl):
         if self.incorrect == 3:
             self.failed_message.value = "Three squares selected wrong, resetting stage",
             self.failed_message.update()
-            threading.Timer(1.5, clear_failed_message).start()
+            threading.Timer(1.5, self.clear_failed_message).start()
             self.incorrect = 0
+            self.stage = 1
+            self.difficulty = 2
+            time.sleep(1)
             self.rebuild_grid()
             self.grid.update()
-        def clear_failed_message():
-            self.failed_message.value = ''
-            self.failed_message.update()
-
+            self.failed_stage_change(self.stage)
         
         if self.blue_tiles == 0:
             time.sleep(1)
@@ -107,12 +111,17 @@ class GenerateGrid(UserControl):
 
 
 def play_page_view(page: Page):
-    stage_message = Text(value = '', size=20, color='green') #textul pentru mesajul de succes
+    stage_message = Text(value = '', size=20, color=green) #textul pentru mesajul de succes
     def on_stage_change(new_stage):
         stage_text.value = f'Level: {new_stage}'
         stage_text.update()
         stage_message.value = "Congrats, preparing the next level"   #mesajul in sine
         stage_message.update()  #refresh-ul mesajului
+        threading.Timer(1.5, clear_stage_message).start() #pentru pastrarea mesajului de succes doar pentru 3 secunde
+
+    def failed_stage_change(new_stage):
+        stage_text.value = f'Level: {new_stage}'
+        stage_text.update()
         threading.Timer(1.5, clear_stage_message).start() #pentru pastrarea mesajului de succes doar pentru 3 secunde
 
     def clear_stage_message():
@@ -121,6 +130,7 @@ def play_page_view(page: Page):
 
     grid_instance = GenerateGrid(2)
     grid_instance.on_stage_change = on_stage_change
+    grid_instance.failed_stage_change = failed_stage_change
 
     stage_text = Text(value=f'Level: {grid_instance.stage}', size=20) #pentru refresh
     stage_text = Text(value=f'Level: {grid_instance.stage}', size=20) #pentru prima aparitie
@@ -128,22 +138,24 @@ def play_page_view(page: Page):
     return View(
         route='/play_page',
         controls=[
-            AppBar(title=Text('PLAY PAGE'), bgcolor='blue',
+            AppBar(title=Text('MINDSWEEPER'), 
+                   bgcolor=mainc, 
+                   center_title = True,
                    actions=[
                             Row([
                                 IconButton(
                                     icon = ft.icons.SETTINGS,
-                                    icon_color='white',
+                                    icon_color=white,
                                     on_click=lambda _: page.go('/settings_page')
                                 ),
                                 IconButton(
                                     icon = ft.icons.ACCOUNT_CIRCLE,
-                                    icon_color='white',
+                                    icon_color=white,
                                     on_click=lambda _: page.go('/profile_page')
                                 )
                             ])
                         ]),
-            Text(value='PLAY PAGE', size=30),
+            Text(value='DIFFICULTY: ', size=30),
             grid_instance,
             stage_text,
             grid_instance.failed_message,
