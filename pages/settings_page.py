@@ -3,11 +3,19 @@ import flet as ft
 from flet import View, Page, AppBar, Text, IconButton, Row, Column, Switch, ElevatedButton, Container
 from flet import CrossAxisAlignment, MainAxisAlignment
 
+sound_state = True
+
 def settings_page_view(page: Page):
     def dropdown_changed(e):
         selected_value = e.new_value
         print(f"Dropdown changed to {selected_value}")
         page.update()
+
+    def switch_changed(val):
+        global sound_state
+        sound_state = not sound_state
+        print(f"sound_state in settings_page.py: {sound_state}")
+        print(f'Sound state: {val}')
 
     return View(
         route='/settings_page',
@@ -30,8 +38,8 @@ def settings_page_view(page: Page):
             Row([
                 Text(value="Sound", color='blue', size= 20),
                 Switch(
-                    value=True,
-                    on_change=lambda val: print(f'Sound state: {val}')
+                    value=sound_state,
+                    on_change=switch_changed
                 )
             ],
             alignment=MainAxisAlignment.CENTER
@@ -43,7 +51,7 @@ def settings_page_view(page: Page):
                 Text(value="Theme", color='blue', size=20),
                 ft.Text(),
                 ft.Dropdown(
-                    on_change = dropdown_changed,
+                    on_change=dropdown_changed,
                     options=[
                         ft.dropdown.Option("Default Theme"),
                         ft.dropdown.Option("Light Theme"),

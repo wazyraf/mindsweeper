@@ -5,3 +5,5 @@
     •flet run main.py -d --> pentru rulare cu hot reload (ajuta in modificarea elementelor UI, fara a porni si opri aplicatia), documentatie: https://flet.dev/docs/guides/python/hot-reload/
 
     •pentru DropDown --> https://flet.dev/docs/controls/dropdown/
+
+    •pentru introducerea sunetelor --> https://flet.dev/docs/controls/audio/

@@ -6,11 +6,15 @@ import time
 import random
 import threading
 from design import color_variables
+from pages.settings_page import sound_state
 from pages.profile_page import username_container
 mainc, white, red, black, green = color_variables()
-
+url_wrong_ans = "WRONG ANSWER SOUND EFFECT.mp3"
+url_lose = "Sad trombone Sound effect.mp3"
 last_grid_instance = None
+
 class GenerateGrid(UserControl):
+
     def __init__(self, difficulty):
         self.grid = Column(opacity=1, animate_opacity=300)
         self.blue_tiles: int = 0
@@ -71,6 +75,28 @@ class GenerateGrid(UserControl):
     def clear_failed_message(self):
             self.failed_message.value = ''
             self.failed_message.update()
+        
+    def sound_effect_wrong(self):
+        audio_effect = ft.Audio(src = url_wrong_ans, autoplay=True, volume = 1)
+        self.page.overlay.append(audio_effect)
+    
+    def sound_effect_lose(self):
+        print("Playing lose sound")
+        audio_effect = ft.Audio(src = url_lose, autoplay = True, volume = 1)
+        self.page.overlay.append(audio_effect)
+    
+    def reset(self):
+        self.failed_message.value = "Three squares selected wrong, resetting stage"
+        self.failed_message.update()
+        threading.Timer(1.5, self.clear_failed_message).start()
+        self.incorrect = 0
+        self.stage = 1
+        self.difficulty = 2
+        time.sleep(1)
+        self.rebuild_grid()
+        self.grid.update()
+        self.failed_stage_change(self.stage)
+
 
     def show_color(self, e):
         if e.control.data == mainc:
@@ -81,28 +107,22 @@ class GenerateGrid(UserControl):
             self.blue_tiles -= 1
             self.correct += 1
             e.page.update()
-        else:
+        else: 
+            self.incorrect += 1
+            if self.incorrect != 3 and sound_state:
+                self.sound_effect_wrong()
             e.control.bgcolor = red
             e.control.opacity = 1
             e.control.on_click = None
             e.control.update()
-            self.incorrect += 1
-            e.page.update()
-        
-        if self.incorrect == 3:
-            self.failed_message.value = "Three squares selected wrong, resetting stage",
-            self.failed_message.update()
-            threading.Timer(1.5, self.clear_failed_message).start()
-            self.incorrect = 0
-            self.stage = 1
-            self.difficulty = 2
-            time.sleep(1)
-            self.rebuild_grid()
-            self.grid.update()
-            self.failed_stage_change(self.stage)
+            if self.incorrect == 3 and sound_state:
+                self.sound_effect_lose()
+                self.reset()
+            e.page.update()      
         
         if self.blue_tiles == 0:
             time.sleep(1)
+            self.incorrect = 0
             self.difficulty += 1
             self.stage += 1
             self.rebuild_grid() 
