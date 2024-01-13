@@ -5,18 +5,22 @@ from flet import CrossAxisAlignment, MainAxisAlignment
 
 sound_state = True
 
+
+    
+def sound_val():
+    return sound_state
+
 def settings_page_view(page: Page):
     def dropdown_changed(e):
         selected_value = e.new_value
         print(f"Dropdown changed to {selected_value}")
         page.update()
 
-    def switch_changed(val):
+    def switch_changed(e):
         global sound_state
         sound_state = not sound_state
         print(f"sound_state in settings_page.py: {sound_state}")
-        print(f'Sound state: {val}')
-
+    
     return View(
         route='/settings_page',
         controls=[

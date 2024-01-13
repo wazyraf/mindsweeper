@@ -4,7 +4,7 @@ from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAli
 from pages.play_page import play_page_view
 from pages.settings_page import settings_page_view
 from pages.profile_page import profile_page_view
-from theme import Theme
+
 from design import color_variables
 mainc, white, red, black, green = color_variables()
 

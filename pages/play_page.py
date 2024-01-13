@@ -7,11 +7,13 @@ import random
 import threading
 from design import color_variables
 from pages.settings_page import sound_state
+from pages.settings_page import sound_val
 from pages.profile_page import username_container
 mainc, white, red, black, green = color_variables()
 url_wrong_ans = "WRONG ANSWER SOUND EFFECT.mp3"
 url_lose = "Sad trombone Sound effect.mp3"
 last_grid_instance = None
+
 
 class GenerateGrid(UserControl):
 
@@ -84,18 +86,6 @@ class GenerateGrid(UserControl):
         print("Playing lose sound")
         audio_effect = ft.Audio(src = url_lose, autoplay = True, volume = 1)
         self.page.overlay.append(audio_effect)
-    
-    def reset(self):
-        self.failed_message.value = "Three squares selected wrong, resetting stage"
-        self.failed_message.update()
-        threading.Timer(1.5, self.clear_failed_message).start()
-        self.incorrect = 0
-        self.stage = 1
-        self.difficulty = 2
-        time.sleep(1)
-        self.rebuild_grid()
-        self.grid.update()
-        self.failed_stage_change(self.stage)
 
 
     def show_color(self, e):
@@ -109,6 +99,7 @@ class GenerateGrid(UserControl):
             e.page.update()
         else: 
             self.incorrect += 1
+            sound_state = sound_val()
             if self.incorrect != 3 and sound_state:
                 self.sound_effect_wrong()
             e.control.bgcolor = red
@@ -117,8 +108,19 @@ class GenerateGrid(UserControl):
             e.control.update()
             if self.incorrect == 3 and sound_state:
                 self.sound_effect_lose()
-                self.reset()
             e.page.update()      
+        if self.incorrect == 3:
+            self.failed_message.value = "Three squares selected wrong, resetting stage"
+            self.failed_message.update()
+            threading.Timer(1.5, self.clear_failed_message).start()
+            self.incorrect = 0
+            self.stage = 1
+            self.difficulty = 2
+            time.sleep(1)
+            self.rebuild_grid()
+            self.grid.update()
+            self.failed_stage_change(self.stage)
+            e.page.update()
         
         if self.blue_tiles == 0:
             time.sleep(1)
