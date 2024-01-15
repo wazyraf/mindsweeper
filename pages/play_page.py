@@ -10,11 +10,11 @@ from pages.settings_page import sound_state
 from pages.settings_page import sound_val
 from pages.profile_page import username_container
 mainc, white, red, black, green = color_variables()
-url_wrong_ans = "WRONG ANSWER SOUND EFFECT.mp3"
-url_lose = "Sad trombone Sound effect.mp3"
-url_correct = "correct sound.mp3"
+url_wrong_ans = "sounds/wrong.mp3"
+url_lose = "sounds/sad.mp3"
+url_correct = "sounds/correct.mp3"
+url_music = "sounds/rizz monkey.mp3"
 last_grid_instance = None
-url_music = "rizz monkey.mp3"
 
 class ReleaseMode:
     def __init__(self, value):
@@ -91,16 +91,16 @@ class GenerateGrid(UserControl):
             self.failed_message.update()
         
     def sound_effect_wrong(self):
-        audio_effect = ft.Audio(src = url_wrong_ans, autoplay=True, volume = 1)
+        audio_effect = ft.Audio(src = url_wrong_ans, autoplay=True, volume = 0.2)
         self.page.overlay.append(audio_effect)
     
     def sound_effect_lose(self):
         print("Playing lose sound")
-        audio_effect = ft.Audio(src = url_lose, autoplay = True, volume = 1)
+        audio_effect = ft.Audio(src = url_lose, autoplay = True, volume = 0.1)
         self.page.overlay.append(audio_effect)
     
     def sound_correct(self):
-        audio_effect = ft.Audio(src = url_correct, autoplay = True, volume = 1)
+        audio_effect = ft.Audio(src = url_correct, autoplay = True, volume = 0.75)
         self.page.overlay.append(audio_effect)
 
 

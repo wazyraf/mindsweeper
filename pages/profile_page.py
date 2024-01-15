@@ -3,7 +3,7 @@ from flet import View, Page, AppBar, ElevatedButton, Text
 from flet import CrossAxisAlignment, MainAxisAlignment, IconButton, Row
 from design import color_variables
 
-username_container = {'username':'Player1'}
+username_container = {'username':'Player'}
 username_field = ft.TextField(label='Username')
 def update_colors():
     global mainc,white, red, black, green
