@@ -101,4 +101,4 @@ def main(page: Page) -> None:
     page.go(page.route)
 
 if __name__== '__main__':
-    ft.app(target=main)
+     ft.app(target=main)
