@@ -5,7 +5,7 @@ from flet import CrossAxisAlignment, MainAxisAlignment
 import time
 import random
 import threading
-from design import color_variables
+from design import color_variables, current_theme
 from pages.settings_page import sound_state
 from pages.settings_page import sound_val
 from pages.profile_page import username_container
@@ -28,7 +28,12 @@ class GenerateGrid(UserControl):
         super().__init__()
         self.generate_grid()
 
+    def update_colors(self):
+        global mainc,white, red, black, green
+        mainc, white, red, black, green = color_variables()
+    
     def generate_grid(self):
+        self.update_colors()
         rows = [
             Row(
                 alignment=MainAxisAlignment.CENTER,
@@ -46,8 +51,8 @@ class GenerateGrid(UserControl):
             for _ in range(5)
         ]
 
-        colors = [black, mainc] #prima pentru patratele goale si a doua pentru cele colorate
-
+        colors = [black, mainc]
+        
         for row in rows:
             for container in row.controls:
                 container.bgcolor = random.choices(colors, weights=[10, self.difficulty])[0]
@@ -67,6 +72,7 @@ class GenerateGrid(UserControl):
         return self.grid
 
     def delete_grid(self, grid):
+        self.update_colors()
         for row in grid.controls:
             for container in row.controls:
                 container.on_click = lambda e: self.show_color(e)
@@ -135,9 +141,12 @@ class GenerateGrid(UserControl):
 
 def play_page_view(page: Page):
     stage_message = Text(value = '', size=20, color=green) #textul pentru mesajul de succes
+    
     def on_stage_change(new_stage):
         stage_text.value = f'Level: {new_stage}'
         stage_text.update()
+        blue_tiles_text.value = f'{tile_color} Tiles: {grid_instance.blue_tiles}'
+        blue_tiles_text.update()
         stage_message.value = f"Congrats {username_container['username']}, preparing the next level"   #mesajul in sine
         stage_message.update()  #refresh-ul mesajului
         threading.Timer(1.5, clear_stage_message).start() #pentru pastrarea mesajului de succes doar pentru 3 secunde
@@ -145,18 +154,31 @@ def play_page_view(page: Page):
     def failed_stage_change(new_stage):
         stage_text.value = f'Level: {new_stage}'
         stage_text.update()
+        blue_tiles_text.value = f'{tile_color} Tiles: {grid_instance.blue_tiles}'
+        blue_tiles_text.update()
         threading.Timer(1.5, clear_stage_message).start() #pentru pastrarea mesajului de succes doar pentru 3 secunde
 
     def clear_stage_message():
         stage_message.value=''
         stage_message.update()
-
+    
     grid_instance = GenerateGrid(2)
     grid_instance.on_stage_change = on_stage_change
     grid_instance.failed_stage_change = failed_stage_change
+    
+    if mainc == '#4A7DFF':
+        tile_color = "Blue"
+    if mainc == green:
+        tile_color = "Green"
+    if mainc == '#6050dc':
+        tile_color = "Majorelle Purple"
+    if mainc == '#c5b358':
+        tile_color = "Vegas Gold"
 
     stage_text = Text(value=f'Level: {grid_instance.stage}', size=20) #pentru refresh
     stage_text = Text(value=f'Level: {grid_instance.stage}', size=20) #pentru prima aparitie
+    
+    blue_tiles_text = Text(value=f'{tile_color} Tiles: {grid_instance.blue_tiles}',size=30)
     
     return View(
         route='/play_page',
@@ -178,7 +200,8 @@ def play_page_view(page: Page):
                                 )
                             ])
                         ]),
-            Text(value='DIFFICULTY: ', size=30),
+            Container(height = 30),
+            blue_tiles_text,
             grid_instance,
             stage_text,
             grid_instance.failed_message,
