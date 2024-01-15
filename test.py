@@ -1,61 +1,30 @@
 import flet as ft
 
-url = "WRONG ANSWER SOUND EFFECT.mp3"
-
 def main(page: ft.Page):
-    def volume_down(_):
-        audio1.volume -= 0.1
-        audio1.update()
+    def check_item_clicked(e):
+        e.control.checked = not e.control.checked
+        page.update()
 
-    def volume_up(_):
-        audio1.volume += 0.1
-        audio1.update()
-
-    def balance_left(_):
-        audio1.balance -= 0.1
-        audio1.update()
-
-    def balance_right(_):
-        audio1.balance += 0.1
-        audio1.update()
-
-    audio1 = ft.Audio(
-        src=url,
-        autoplay=False,
-        volume=1,
-        balance=0,
-        on_loaded=lambda _: print("Loaded"),
-        on_duration_changed=lambda e: print("Duration changed:", e.data),
-        on_position_changed=lambda e: print("Position changed:", e.data),
-        on_state_changed=lambda e: print("State changed:", e.data),
-        on_seek_complete=lambda _: print("Seek complete"),
+    page.appbar = ft.AppBar(
+        leading=ft.Icon(ft.icons.PALETTE),
+        leading_width=40,
+        title=ft.Text("AppBar Example"),
+        center_title=False,
+        bgcolor=ft.colors.SURFACE_VARIANT,
+        actions=[
+            ft.IconButton(ft.icons.WB_SUNNY_OUTLINED),
+            ft.IconButton(ft.icons.FILTER_3),
+            ft.PopupMenuButton(
+                items=[
+                    ft.PopupMenuItem(text="Item 1"),
+                    ft.PopupMenuItem(),  # divider
+                    ft.PopupMenuItem(
+                        text="Checked item", checked=False, on_click=check_item_clicked
+                    ),
+                ]
+            ),
+        ],
     )
-    page.overlay.append(audio1)
-    page.add(
-        ft.ElevatedButton("Play", on_click=lambda _: audio1.play()),
-        ft.ElevatedButton("Pause", on_click=lambda _: audio1.pause()),
-        ft.ElevatedButton("Resume", on_click=lambda _: audio1.resume()),
-        ft.ElevatedButton("Release", on_click=lambda _: audio1.release()),
-        ft.ElevatedButton("Seek 2s", on_click=lambda _: audio1.seek(2000)),
-        ft.Row(
-            [
-                ft.ElevatedButton("Volume down", on_click=volume_down),
-                ft.ElevatedButton("Volume up", on_click=volume_up),
-            ]
-        ),
-        ft.Row(
-            [
-                ft.ElevatedButton("Balance left", on_click=balance_left),
-                ft.ElevatedButton("Balance right", on_click=balance_right),
-            ]
-        ),
-        ft.ElevatedButton(
-            "Get duration", on_click=lambda _: print("Duration:", audio1.get_duration())
-        ),
-        ft.ElevatedButton(
-            "Get current position",
-            on_click=lambda _: print("Current position:", audio1.get_current_position()),
-        ),
-    )
+    page.add(ft.Text("Body!"))
 
 ft.app(target=main)

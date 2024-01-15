@@ -3,10 +3,7 @@ import flet as ft
 from flet import View, Page, AppBar, Text, IconButton, Row, Column, Switch, ElevatedButton, Container
 from flet import CrossAxisAlignment, MainAxisAlignment
 
-sound_state = True
-
-
-    
+sound_state = True  
 def sound_val():
     return sound_state
 
