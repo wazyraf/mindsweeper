@@ -12,8 +12,14 @@ from pages.profile_page import username_container
 mainc, white, red, black, green = color_variables()
 url_wrong_ans = "WRONG ANSWER SOUND EFFECT.mp3"
 url_lose = "Sad trombone Sound effect.mp3"
+url_correct = "correct sound.mp3"
 last_grid_instance = None
+url_music = "rizz monkey.mp3"
 
+class ReleaseMode:
+    def __init__(self, value):
+        self.value = value
+        pass
 
 class GenerateGrid(UserControl):
 
@@ -92,10 +98,17 @@ class GenerateGrid(UserControl):
         print("Playing lose sound")
         audio_effect = ft.Audio(src = url_lose, autoplay = True, volume = 1)
         self.page.overlay.append(audio_effect)
+    
+    def sound_correct(self):
+        audio_effect = ft.Audio(src = url_correct, autoplay = True, volume = 1)
+        self.page.overlay.append(audio_effect)
 
 
     def show_color(self, e):
         if e.control.data == mainc:
+            sound_state = sound_val()
+            if sound_state:
+                self.sound_correct()
             e.control.bgcolor = mainc
             e.control.opacity = 1
             e.control.on_click = None
@@ -140,6 +153,11 @@ class GenerateGrid(UserControl):
 
 
 def play_page_view(page: Page):
+    sound_state = sound_val()
+    audio = ft.Audio(src=url_music, autoplay=True, volume=0.08, release_mode=ReleaseMode("loop"))
+    if sound_state:
+        page.overlay.append(audio)
+
     stage_message = Text(value = '', size=20, color=green) #textul pentru mesajul de succes
     
     def on_stage_change(new_stage):
@@ -180,25 +198,42 @@ def play_page_view(page: Page):
     
     blue_tiles_text = Text(value=f'{tile_color} Tiles: {grid_instance.blue_tiles}',size=30)
     
+    def settings_leave():
+        audio.volume = 0
+        page.go('/settings_page')
+
+    def profile_leave():
+        audio.volume = 0
+        page.go('/profile_page')
+    def on_back_arrow_click():
+        audio.volume = 0
+        page.go('/')
+
     return View(
         route='/play_page',
         controls=[
             AppBar(title=Text('MINDSWEEPER'), 
                    bgcolor=mainc, 
                    center_title = True,
+                   leading=ft.IconButton(
+                       icon = ft.icons.ARROW_BACK,
+                       icon_color=white,
+                       on_click=lambda _: on_back_arrow_click()
+                   ),
                    actions=[
+                            
                             Row([
                                 IconButton(
                                     icon = ft.icons.SETTINGS,
                                     icon_color=white,
-                                    on_click=lambda _: page.go('/settings_page')
+                                    on_click=lambda _: settings_leave()
                                 ),
                                 IconButton(
                                     icon = ft.icons.ACCOUNT_CIRCLE,
                                     icon_color=white,
-                                    on_click=lambda _: page.go('/profile_page')
+                                    on_click=lambda _: profile_leave()
                                 )
-                            ])
+                            ])   
                         ]),
             Container(height = 30),
             blue_tiles_text,
