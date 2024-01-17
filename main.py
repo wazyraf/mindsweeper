@@ -86,7 +86,7 @@ def main(page: Page) -> None:
         if page.route == '/settings_page':
             page.views.append(settings_page_view(page))
 
-        #ruta catre profile_page
+    #ruta catre profile_page
         if page.route == '/profile_page':
             page.views.append(profile_page_view(page))
     page.update()
