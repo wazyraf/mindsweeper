@@ -91,16 +91,16 @@ class GenerateGrid(UserControl):
             self.failed_message.update()
         
     def sound_effect_wrong(self):
-        audio_effect = ft.Audio(src = url_wrong_ans, autoplay=True, volume = 0.2)
+        audio_effect = ft.Audio(src = url_wrong_ans, autoplay=True, volume = 0.35)
         self.page.overlay.append(audio_effect)
     
     def sound_effect_lose(self):
         print("Playing lose sound")
-        audio_effect = ft.Audio(src = url_lose, autoplay = True, volume = 0.1)
+        audio_effect = ft.Audio(src = url_lose, autoplay = True, volume = 0.25)
         self.page.overlay.append(audio_effect)
     
     def sound_correct(self):
-        audio_effect = ft.Audio(src = url_correct, autoplay = True, volume = 0.75)
+        audio_effect = ft.Audio(src = url_correct, autoplay = True, volume = 0.85)
         self.page.overlay.append(audio_effect)
 
 
@@ -154,7 +154,7 @@ class GenerateGrid(UserControl):
 
 def play_page_view(page: Page):
     sound_state = sound_val()
-    audio = ft.Audio(src=url_music, autoplay=True, volume=0.08, release_mode=ReleaseMode("loop"))
+    audio = ft.Audio(src=url_music, autoplay=True, volume=0.35, release_mode=ReleaseMode("loop"))
     if sound_state:
         page.overlay.append(audio)
 
