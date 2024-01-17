@@ -18,7 +18,7 @@ def main(page: Page) -> None:
         page.views.clear()
         update_colors()
 
-        #home_page design
+    #home_page design
         page.views.append(
             View(
                 route='/',
@@ -78,15 +78,15 @@ def main(page: Page) -> None:
             )
         )
 
-        #ruta catre play_page
+    #ruta catre play_page
         if page.route == '/play_page':
             page.views.append(play_page_view(page))
 
-        #ruta catre settings_page
+    #ruta catre settings_page
         if page.route == '/settings_page':
             page.views.append(settings_page_view(page))
 
-        #ruta catre profile_page
+    #ruta catre profile_page
         if page.route == '/profile_page':
             page.views.append(profile_page_view(page))
     page.update()
@@ -96,9 +96,9 @@ def main(page: Page) -> None:
         top_view: View = page.views[-1]
         page.go(top_view.route)
 
-    page.on_route_change = route_change
-    page.on_view_pop = view_pop
-    page.go(page.route)
+        page.on_route_change = route_change
+        page.on_view_pop = view_pop
+        page.go(page.route)
 
 if __name__== '__main__':
-    ft.app(target=main)
+     ft.app(target=main)
