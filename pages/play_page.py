@@ -68,7 +68,7 @@ class GenerateGrid(UserControl):
 
 
         self.grid.controls = rows  
-        threading.Timer(1.5, self.delete_grid, args=(self.grid,)).start()
+        threading.Timer(1.5, self.delete_grid, args=(self.grid)).start()
 
     def rebuild_grid(self):
         self.blue_tiles = 0
