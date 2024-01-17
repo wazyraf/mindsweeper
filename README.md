@@ -23,3 +23,5 @@
         am folosit https://ytmp3.nu/CNtD/ pentru a converti videoul in mp3
 
     •https://flet.dev/docs/ -> intreaga documentatie a framework-ului flet
+
+    •https://github.com/wazyraf/mindsweeper -> GitHub 
