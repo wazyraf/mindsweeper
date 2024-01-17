@@ -25,3 +25,5 @@
     •https://flet.dev/docs/ -> intreaga documentatie a framework-ului flet
 
     •https://github.com/wazyraf/mindsweeper -> GitHub 
+
+Pentru puțin haz: https://ibb.co/0fbt3fq
