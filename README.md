@@ -2,7 +2,6 @@
     La deschiderea aplicatiei se deschide main_page-ul. Aici avem 3 butoane principale (ElevatedButtons, liniile 56-72) : Play -> pentru inceperea jocului, Settings -> pentru setari de sunet si tema, Profile -> pentru introducerea username-ului. La pornirea jocului porneste muzica si apare un grid de 5x5 (clasa GenerateGrid catre self.generate_grid()) cu un numar de patratele colorate (in functia generate_grid()) , acestea trebuiesc memorate si reproduse dupa disparitia lor (functia delete_grid()). Acest joc va rula la infinit, trecand de la un nivel la altul, daca nu se aleg 3 patratele gresit. In cazul in care se aleg 3 gresit, se reseteaza.
 
     Contributii:
-    -Ciortan Tudor Alexandru -> Design, Modele si Aranjarea codului
     -Cocor Erwin Gilbert Mario -> Implementarea mesajelor la terminarea nivelului, Variabile pentru culori si tematici, account_page, Numarul de tile-uri
     -Fronea Gabriel -> Stage-ul pentru nivele, Updatarea Gridului, settings_page, Sunet
 
